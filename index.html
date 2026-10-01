@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katalog UMKM Kuliner Kupang — Budaya NTT</title>
+<style>
+  /* ================= RESET & GLOBAL ================= */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #fdf6ec;
+    color: #2e3d2f;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ================= LOADING SCREEN ================= */
+  #loadingScreen {
+    position: fixed;
+    inset: 0;
+    background: #9e948d;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    color: white;
+    text-align: center;
+    padding: 1.15rem;
+    transition: opacity 1s ease, visibility 1s ease;
+    overflow: hidden;
+  }
+  #loadingScreen.hidden { opacity: 0; visibility: hidden; }
+
+  .loading-bg-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.40;
+    pointer-events: none;
+    z-index: 1;
+    animation: zoomSlow 8s ease-in-out infinite;
+  }
+
+  @keyframes zoomSlow {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.30); }
+  }
+
+  .loading-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.35);
+    padding: 2rem 2.5rem;
+    border-radius: 20px;
+    backdrop-filter: blur(2px);
+  }
+
+  .loading-logo {
+    font-size: 4.5rem;
+    margin-bottom: 1rem;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-12px); }
+  }
+
+  .loading-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+  }
+
+  .loading-subtitle {
+    font-size: 1rem;
+    opacity: 0.95;
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  }
+
+  .progress-container {
+    width: 280px;
+    height: 8px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #ffcc80;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+  }
+
+  .loading-percent {
+    font-size: 0.95rem;
+    opacity: 0.95;
+    font-weight: 600;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+  }
+
+  /* ================= NAVBAR ================= */
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #b34700;
+    color: white;
+    padding: 1rem 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  }
+  .navbar .logo { font-size: 1.3rem; font-weight: bold; }
+
+  .navbar nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+  }
+
+  .navbar nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 0.4rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: background 0.3s;
+    font-size: 0.95rem;
+  }
+
+  .navbar nav a:hover { background: #7a2f00; }
+  .navbar nav a.active { background: #7a2f00; font-weight: bold; }
+
+  /* ===== Tombol WhatsApp di Navbar ===== */
+  .navbar .nav-wa {
+    background: #25D366;
+    color: white !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-left: 0.8rem !important;
+    padding: 0.5rem 1.1rem !important;
+    border-radius: 25px !important;
+    box-shadow: 0 3px 10px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s;
+  }
+
+  .navbar .nav-wa:hover {
+    background: #1da851 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.6);
+  }
+
+  .navbar .nav-wa svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+    flex-shrink: 0;
+  }
+
+  /* ============================================================
+     ✅ TOMBOL LAPORAN PDF DI NAVBAR
+     ============================================================ */
+  .navbar .nav-pdf {
+    background: #d32f2f;
+    color: white !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-left: 0.5rem !important;
+    padding: 0.5rem 1.1rem !important;
+    border-radius: 25px !important;
+    box-shadow: 0 3px 10px rgba(211, 47, 47, 0.4);
+    transition: all 0.3s;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+  }
+
+  .navbar .nav-pdf:hover {
+    background: #b71c1c !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(211, 47, 47, 0.6);
+  }
+
+  .navbar .nav-pdf svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+    flex-shrink: 0;
+  }
+
+  /* ================= BREADCRUMB ================= */
+  .breadcrumb {
+    padding: 1rem 2rem;
+    font-size: 0.9rem;
+    color: #666;
+    background: #fff4e6;
+  }
+  .breadcrumb a { color: #b34700; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+
+  /* ================= HERO ================= */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 4rem 1rem;
+    background: linear-gradient(135deg, #ffcc80, #ffb74d);
+    color: #4e2600;
+    overflow: hidden;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1400&q=80');
+    background-size: cover;
+    background-position: center;
+    opacity: 1.40;
+    z-index: 1;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 204, 128, 0.80), rgba(255, 183, 77, 0.70));
+    z-index: 2;
+  }
+
+  .hero-content { position: relative; z-index: 3; max-width: 800px; }
+
+  .hero h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.7rem;
+    text-shadow: 0 2px 8px rgba(255,255,255,0.8), 0 1px 3px rgba(0,0,0,0.15);
+    color: #4e2600;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    text-shadow: 0 1px 4px rgba(255,255,255,0.7);
+    color: #5a2d00;
+    font-weight: 500;
+  }
+
+  /* ================= STATISTIK RINGKAS ================= */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    max-width: 1200px;
+    margin: -1.5rem auto 0;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 5;
+  }
+  .stat-box {
+    background: white;
+    border-radius: 14px;
+    padding: 1.2rem 1.3rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: 0.3s;
+    border-bottom: 4px solid var(--accent);
+  }
+  .stat-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 26px rgba(179, 71, 0, 0.18);
+  }
+  .stat-box .stat-icon { font-size: 2rem; line-height: 1; flex-shrink: 0; }
+  .stat-box .stat-num { font-size: 1.5rem; font-weight: 700; color: #b34700; line-height: 1.2; }
+  .stat-box .stat-label {
+    font-size: 0.8rem;
+    color: #8a7560;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ================= CONTENT ================= */
+  .content { padding: 2.5rem 2rem 3rem; max-width: 1200px; margin: auto; }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .search-katalog {
+    position: relative;
+    flex: 1;
+    min-width: 240px;
+    max-width: 380px;
+  }
+  .search-katalog input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 2px solid #ffcc80;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    background: white;
+    outline: none;
+    transition: 0.3s;
+  }
+  .search-katalog input:focus {
+    border-color: #b34700;
+    box-shadow: 0 0 0 4px rgba(179,71,0,0.12);
+  }
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  .filter button {
+    padding: 0.5rem 1.2rem;
+    border: 2px solid #b34700;
+    background: white;
+    color: #b34700;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    font-size: 0.88rem;
+  }
+  .filter button.active,
+  .filter button:hover {
+    background: #b34700;
+    color: white;
+  }
+
+  .menu-section-title {
+    text-align: center;
+    color: #b34700;
+    margin: 2rem 0 1rem;
+    font-size: 1.3rem;
+  }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.4rem;
+    margin-bottom: 2.5rem;
+  }
+  .menu-item {
+    background: white;
+    border-radius: 16px;
+    padding: 1.4rem 1.3rem 1.5rem;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    border-top: 5px solid #ffb74d;
+    transition: transform 0.3s, box-shadow 0.3s, border-top-color 0.3s;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .menu-item::after {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 100px; height: 100px;
+    background: #fff3e0;
+    border-radius: 50%;
+    opacity: 0.5;
+    z-index: 0;
+    transition: 0.4s;
+  }
+  .menu-item:hover::after { transform: scale(1.3); opacity: 0.7; }
+  .menu-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 26px rgba(179, 71, 0, 0.18);
+    border-top-color: #b34700;
+  }
+  .menu-item > * { position: relative; z-index: 1; }
+
+  .menu-item .badge-kategori {
+    display: inline-block;
+    background: #fff3e0;
+    color: #b34700;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    align-self: center;
+    margin-bottom: 0.6rem;
+  }
+  .menu-item .icon { font-size: 2.8rem; margin-bottom: 0.6rem; }
+  .menu-item h3 { color: #b34700; font-size: 1.1rem; margin-bottom: 0.4rem; }
+  .menu-item .desc {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.9rem;
+    flex-grow: 1;
+  }
+  .menu-item .price {
+    display: inline-block;
+    background: #fff3e0;
+    color: #b34700;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+
+  .detail-box {
+    background: white;
+    border-left: 6px solid #b34700;
+    padding: 1.3rem 1.6rem;
+    margin: 1.2rem 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    scroll-margin-top: 100px;
+    animation: fadeIn 0.5s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .detail-box h2 { color: #b34700; margin-bottom: 0.6rem; }
+  .detail-box .harga {
+    display: inline-block;
+    background: #fff3e0;
+    color: #b34700;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-weight: bold;
+    margin-top: 0.6rem;
+  }
+
+  .cross-links {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px dashed #ffb74d;
+    text-align: center;
+  }
+  .cross-links h3 { color: #b34700; margin-bottom: 0.8rem; }
+  .btn {
+    display: inline-block;
+    background: #b34700;
+    color: white;
+    padding: 0.6rem 1.1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    margin: 0.3rem 0.3rem;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+    font-size: 0.9rem;
+  }
+  .btn:hover { background: #7a2f00; transform: translateY(-2px); }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    background: #b34700;
+    color: white;
+    margin-top: 3rem;
+    font-size: 0.9rem;
+  }
+
+  .wa-float {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 200;
+  }
+  .wa-float-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: white;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+  }
+  .wa-float-btn:hover {
+    background: #1da851;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(37, 211, 102, 0.6);
+  }
+  .wa-float-btn .wa-pulse {
+    position: absolute;
+    top: -4px; left: -4px; right: -4px; bottom: -4px;
+    border-radius: 50px;
+    border: 2px solid #25D366;
+    animation: waPulse 2s infinite;
+    pointer-events: none;
+  }
+  @keyframes waPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.15); opacity: 0; }
+  }
+  .wa-float-btn svg { width: 26px; height: 26px; fill: white; flex-shrink: 0; }
+  .wa-float-btn .wa-label {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    text-align: left;
+  }
+  .wa-float-btn .wa-label small { font-size: 0.7rem; opacity: 0.85; font-weight: 500; }
+
+  /* ================= RESPONSIVE ================= */
+  @media (max-width: 640px) {
+    .navbar { flex-direction: column; align-items: flex-start; }
+    .navbar nav { width: 100%; }
+    .navbar nav a { display: inline-block; margin: 0.2rem 0.2rem 0.2rem 0; font-size: 0.85rem; padding: 0.35rem 0.6rem; }
+    .navbar .nav-wa { margin-left: 0 !important; margin-top: 0.4rem; }
+    .navbar .nav-pdf { margin-left: 0.4rem !important; margin-top: 0.4rem; }
+    .hero h1 { font-size: 1.5rem; }
+    .hero p { font-size: 0.95rem; }
+    .hero { padding: 3rem 1rem; min-height: 260px; }
+    .content { padding: 1rem; }
+    .stats-strip { padding: 0 1rem; margin-top: -1rem; }
+    .stat-box { padding: 1rem; }
+    .stat-box .stat-num { font-size: 1.2rem; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .toolbar { flex-direction: column; align-items: stretch; }
+    .search-katalog { max-width: 100%; }
+
+    .loading-title { font-size: 1.3rem; }
+    .loading-logo { font-size: 3.5rem; }
+
+    .wa-float { bottom: 80px; right: 15px; }
+    .wa-float-btn { padding: 10px 14px; font-size: 0.85rem; }
+    .wa-float-btn svg { width: 22px; height: 22px; }
+    .wa-float-btn .wa-label small { font-size: 0.65rem; }
+  }
+  @media (max-width: 400px) {
+    .wa-float-btn .wa-label { display: none; }
+    .wa-float-btn { padding: 12px; border-radius: 50%; }
+    .wa-float-btn .wa-pulse { border-radius: 50%; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ================= LOADING SCREEN ================= -->
+  <div id="loadingScreen">
+    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80"
+         alt="Makanan Khas NTT"
+         class="loading-bg-image">
+
+    <div class="loading-content">
+      <div class="loading-logo">🍲</div>
+      <div class="loading-title">WELCOME TO</div>
+      <div class="loading-title" style="color:#ffcc80;">Katalog UMKM Kulineran Kupang-NTT</div>
+      <div class="loading-subtitle">Menjelajahi cita rasa khas Nusa Tenggara Timur...</div>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="loading-percent" id="loadingPercent">0%</div>
+    </div>
+  </div>
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar">
+    <div class="logo">🌿 UMKM KULINERAN & BUDAYA NTT</div>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="profil.html">Profil UMKM</a>
+      <a href="galeri.html">Galeri Media</a>
+      <a href="peta.html">Peta</a>
+
+      <!-- Tombol WhatsApp -->
+      <a href="https://wa.me/6282315541698?text=Hallo!%20NTT%20bolehkah%2C%20saya%20mengetahui%20tentang%20UMKM%20Kulineran%20Kupang%20-NTT%20?"
+         target="_blank" rel="noopener"
+         class="nav-wa"
+         title="Hubungi Kami via WhatsApp 0823-1554-1698">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        WhatsApp
+      </a>
+
+      <!-- ============================================================
+           ✅ TOMBOL LAPORAN PDF — LANGSUNG BUKA DI HP & DESKTOP
+           ============================================================ -->
+      <button onclick="bukaLaporan()" class="nav-pdf" title="Lihat Laporan PDF">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+        </svg>
+        Laporan
+      </button>
+      <!-- ✅ SELESAI TAMBAHAN -->
+    </nav>
+  </header>
+
+  <!-- ================= BREADCRUMB ================= -->
+  <nav class="breadcrumb">
+    <a href="index.html">Home</a> › <span>UMKM KULINERAN KUPANG</span>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>🍲 UMKM KULINER KUPANG</h1>
+      <p>Jelajahi cita rasa khas NTT & Budaya Nusa Tenggara Timur</p>
+    </div>
+  </section>
+
+  <!-- ================= STATISTIK RINGKAS ================= -->
+  <section class="stats-strip">
+    <div class="stat-box" style="--accent:#b34700;">
+      <div class="stat-icon">🍲</div>
+      <div>
+        <div class="stat-num">16</div>
+        <div class="stat-label">Produk Kuliner</div>
+      </div>
+    </div>
+    <div class="stat-box" style="--accent:#ff8c42;">
+      <div class="stat-icon">🏪</div>
+      <div>
+        <div class="stat-num">6</div>
+        <div class="stat-label">UMKM Terdaftar</div>
+      </div>
+    </div>
+    <div class="stat-box" style="--accent:#2e7d32;">
+      <div class="stat-icon">🏷️</div>
+      <div>
+        <div class="stat-num">3</div>
+        <div class="stat-label">Kategori</div>
+      </div>
+    </div>
+    <div class="stat-box" style="--accent:#1565c0;">
+      <div class="stat-icon">🌿</div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Khas NTT</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= KONTEN UTAMA ================= -->
+  <main class="content">
+
+    <!-- ===== TOOLBAR ===== -->
+    <div class="toolbar">
+      <div class="search-katalog">
+        <input type="text" id="searchInput" placeholder="🔍 Cari menu kuliner..." onkeyup="cariProduk()">
+      </div>
+      <div class="filter">
+        <button class="active" onclick="filterKategori('all', this)">Semua</button>
+        <button onclick="filterKategori('kuliner', this)">Makanan Tradisional</button>
+        <button onclick="filterKategori('minuman', this)">Minuman Khas</button>
+        <button onclick="filterKategori('oleh-oleh', this)">Oleh-oleh</button>
+      </div>
+    </div>
+
+    <!-- ===== MENU PRODUK ===== -->
+    <h2 class="menu-section-title">🍽️ DAFTAR MENU KULINER KHAS NTT</h2>
+
+    <div class="menu-grid" id="menuGrid">
+
+      <div class="menu-item" data-kategori="kuliner" data-nama="jagung bose">
+        <span class="badge-kategori">Makanan</span>
+        <div class="icon">🌽</div>
+        <h3>Jagung Bose</h3>
+        <p class="desc">Makanan pokok dari jagung, kacang tanah, kacang hijau, dan labu</p>
+        <span class="price">Rp 15.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="kuliner" data-nama="rumpu rampe">
+        <span class="badge-kategori">Makanan</span>
+        <div class="icon">🌿</div>
+        <h3>Rumpu-Rampe</h3>
+        <p class="desc">Makanan pokok dari daun singkong, jantung pisang, buah pepaya, bunga pepaya</p>
+        <span class="price">Rp 20.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="kuliner" data-nama="ikan kuah asam">
+        <span class="badge-kategori">Makanan</span>
+        <div class="icon">🐟</div>
+        <h3>Ikan Kuah Asam</h3>
+        <p class="desc">Ikan segar dengan kuah asam yang menyegarkan</p>
+        <span class="price">Rp 15.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="kuliner" data-nama="sei sapi">
+        <span class="badge-kategori">Makanan</span>
+        <div class="icon">🥩</div>
+        <h3>Se'i Sapi</h3>
+        <p class="desc">Daging sapi asap khas Timor, aroma khas</p>
+        <span class="price">Rp 50.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="kuliner" data-nama="ubi nuabosi">
+        <span class="badge-kategori">Makanan</span>
+        <div class="icon">🍠</div>
+        <h3>Ubi Nuabosi</h3>
+        <p class="desc">Ubi khas Ende yang terasa lembut saat diolah</p>
+        <span class="price">Rp 10.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="kuliner" data-nama="kue rambut jawada">
+        <span class="badge-kategori">Makanan</span>
+        <div class="icon">🍰</div>
+        <h3>Kue Rambut / Jawada</h3>
+        <p class="desc">Kue yang dibuat dengan tepung beras</p>
+        <span class="price">Rp 10.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="kuliner" data-nama="nasi kolo">
+        <span class="badge-kategori">Makanan</span>
+        <div class="icon">🍚</div>
+        <h3>Nasi Kolo</h3>
+        <p class="desc">Nasi yang dimasak di dalam bambu, khas NTT dengan aroma smoky</p>
+        <span class="price">Rp 25.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="kuliner" data-nama="sambal teri ntt">
+        <span class="badge-kategori">Makanan</span>
+        <div class="icon">🌶️</div>
+        <h3>Sambal Teri NTT</h3>
+        <p class="desc">Sambal pedas dengan teri khas NTT, cocok untuk pendamping nasi</p>
+        <span class="price">Rp 15.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="kuliner" data-nama="jagung katemak">
+        <span class="badge-kategori">Makanan</span>
+        <div class="icon">🌽</div>
+        <h3>Jagung Katemak</h3>
+        <p class="desc">Jagung muda yang dimasak dengan santan dan bumbu khas NTT</p>
+        <span class="price">Rp 15.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="minuman" data-nama="sopi">
+        <span class="badge-kategori">Minuman</span>
+        <div class="icon">🍶</div>
+        <h3>Sopi</h3>
+        <p class="desc">Minuman tradisional fermentasi nira lontar</p>
+        <span class="price">Rp 35.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="minuman" data-nama="es lemon ntt">
+        <span class="badge-kategori">Minuman</span>
+        <div class="icon">🍋</div>
+        <h3>Es Lemon NTT</h3>
+        <p class="desc">Minuman segar dari lemon lokal & gula aren</p>
+        <span class="price">Rp 10.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="minuman" data-nama="tuak">
+        <span class="badge-kategori">Minuman</span>
+        <div class="icon">🍷</div>
+        <h3>Tuak</h3>
+        <p class="desc">Minuman tradisional dari nira pohon enau yang difermentasi alami</p>
+        <span class="price">Rp 20.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="oleh-oleh" data-nama="tenun ikat">
+        <span class="badge-kategori">Oleh-oleh</span>
+        <div class="icon">🧵</div>
+        <h3>Tenun Ikat</h3>
+        <p class="desc">Kain tenun motif khas dengan filosofi</p>
+        <span class="price">Rp 250.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="oleh-oleh" data-nama="kopi timor">
+        <span class="badge-kategori">Oleh-oleh</span>
+        <div class="icon">☕</div>
+        <h3>Kopi Timor</h3>
+        <p class="desc">Kopi arabika khas dengan aroma kuat</p>
+        <span class="price">Rp 45.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="oleh-oleh" data-nama="keripik pisang">
+        <span class="badge-kategori">Oleh-oleh</span>
+        <div class="icon">🍌</div>
+        <h3>Keripik Pisang</h3>
+        <p class="desc">Keripik pisang asli NTT</p>
+        <span class="price">Rp 5.000</span>
+      </div>
+
+      <div class="menu-item" data-kategori="oleh-oleh" data-nama="jagung goreng">
+        <span class="badge-kategori">Oleh-oleh</span>
+        <div class="icon">🍿</div>
+        <h3>Jagung Goreng</h3>
+        <p class="desc">Jagung asli makanan khas NTT</p>
+        <span class="price">Rp 7.000</span>
+      </div>
+
+    </div>
+
+    <!-- ===== DETAIL PRODUK ===== -->
+    <h2 class="menu-section-title">📖 DETAIL PRODUK</h2>
+
+    <section id="jagung-bose" class="detail-box">
+      <h2>🌽 Jagung Bose</h2>
+      <p>Makanan pokok masyarakat NTT yang terbuat dari jagung, kacang merah, dan labu kuning. Biasanya disajikan bersama ikan asin dan sambal lu'at khas Timor.</p>
+      <span class="harga">Rp 15.000 / porsi</span>
+    </section>
+
+    <section id="rumpu-Rampe" class="detail-box">
+      <h2>🌿 Rumpu-Rampe</h2>
+      <p>Makanan tradisional NTT yang terbuat dari campuran daun singkong, jantung pisang, buah pepaya muda, dan bunga pepaya. Dimasak dengan bumbu khas dan santan.</p>
+      <span class="harga">Rp 20.000 / porsi</span>
+    </section>
+
+    <section id="ikan-kuah-asam" class="detail-box">
+      <h2>🐟 Ikan Kuah Asam</h2>
+      <p>Ikan segar yang dimasak dengan kuah asam khas NTT. Menggunakan asam jawa atau belimbing wuluh sebagai sumber rasa asam yang menyegarkan.</p>
+      <span class="harga">Rp 15.000 / porsi</span>
+    </section>
+
+    <section id="sei-sapi" class="detail-box">
+      <h2>🥩 Se'i Sapi</h2>
+      <p>Daging sapi asap khas Timor yang diasap dengan kayu kosambi selama berjam-jam. Menghasilkan aroma dan cita rasa khas yang tidak ditemukan di daerah lain.</p>
+      <span class="harga">Rp 50.000 / porsi</span>
+    </section>
+
+    <section id="kue-rambut" class="detail-box">
+      <h2>🍰 Kue Rambut</h2>
+      <p>Kue tradisional berbentuk seperti rambut halus, terbuat dari tepung beras dan gula. Renyah, manis, dan cocok sebagai camilan atau oleh-oleh.</p>
+      <span class="harga">Rp 20.000 / kotak</span>
+    </section>
+
+    <section id="sopi" class="detail-box">
+      <h2>🍶 Sopi (Minuman Tradisional)</h2>
+      <p>Minuman tradisional hasil fermentasi nira lontar. Biasanya disajikan pada acara adat dan ritual masyarakat Timor.</p>
+      <span class="harga">Rp 35.000 / botol</span>
+    </section>
+
+    <section id="es-lemon" class="detail-box">
+      <h2>🍋 Es Lemon NTT</h2>
+      <p>Minuman segar dari lemon lokal NTT, gula aren, dan es. Cocok dinikmati saat cuaca panas.</p>
+      <span class="harga">Rp 10.000 / gelas</span>
+    </section>
+
+    <section id="tenun" class="detail-box">
+      <h2>🧵 Tenun Ikat NTT</h2>
+      <p>Kain tenun ikat dengan motif khas NTT. Setiap motif memiliki makna dan filosofi tersendiri bagi masyarakat setempat.</p>
+      <span class="harga">Rp 250.000 / lembar</span>
+    </section>
+
+    <section id="kopi" class="detail-box">
+      <h2>☕ Kopi Timor</h2>
+      <p>Kopi arabika asal Timor dengan cita rasa khas, sedikit asam, dan aroma kuat. Diolah secara tradisional oleh petani lokal.</p>
+      <span class="harga">Rp 45.000 / 250 gr</span>
+    </section>
+
+    <section id="keripik" class="detail-box">
+      <h2>🍌 Keripik Pisang</h2>
+      <p>Keripik pisang asli NTT yang renyah dan gurih. Dibuat dari pisang pilihan dengan proses penggorengan tradisional.</p>
+      <span class="harga">Rp 5.000 / bungkus</span>
+    </section>
+
+    <section id="jagung" class="detail-box">
+      <h2>🍿 Jagung Goreng</h2>
+      <p>Jagung goreng khas NTT yang renyah dan gurih. Camilan favorit masyarakat setempat.</p>
+      <span class="harga">Rp 7.000 / bungkus</span>
+    </section>
+
+    <section id="nasi-kolo" class="detail-box">
+      <h2>🍚 Nasi Kolo</h2>
+      <p>Nasi khas NTT yang dimasak di dalam bambu (kolo) di atas api terbuka. Menghasilkan aroma smoky yang khas dan rasa gurih alami. Biasanya disajikan bersama lauk tradisional seperti ikan asap dan sayur rumpu-rampe.</p>
+      <span class="harga">Rp 25.000 / porsi</span>
+    </section>
+
+    <section id="sambal-teri" class="detail-box">
+      <h2>🌶️ Sambal Teri NTT</h2>
+      <p>Sambal khas Nusa Tenggara Timur yang dibuat dari cabai segar, teri medan, dan bumbu tradisional. Pedasnya pas, gurih, dan cocok dijadikan pendamping nasi hangat atau oleh-oleh.</p>
+      <span class="harga">Rp 15.000 / botol</span>
+    </section>
+
+    <section id="jagung-katemak" class="detail-box">
+      <h2>🌽 Jagung Katemak</h2>
+      <p>Hidangan jagung muda khas NTT yang dimasak dengan santan kelapa dan bumbu tradisional. Rasanya gurih, manis alami, dan creamy. Cocok dinikmati sebagai lauk atau camilan.</p>
+      <span class="harga">Rp 15.000 / porsi</span>
+    </section>
+
+    <section id="tuak" class="detail-box">
+      <h2>🍷 Tuak</h2>
+      <p>Minuman tradisional NTT yang berasal dari nira pohon enau (aren) yang difermentasi secara alami. Rasanya manis sedikit asam, biasanya disajikan pada acara adat dan pertemuan keluarga.</p>
+      <span class="harga">Rp 20.000 / gelas</span>
+    </section>
+
+    <!-- ===== CROSS LINKS ===== -->
+    <section class="cross-links">
+      <h3>🔀 Jelajahi Juga:</h3>
+      <a href="peta.html" class="btn">🗺️ Lihat Lokasi di Peta</a>
+      <a href="galeri.html#foto" class="btn">📸 Galeri Foto UMKM</a>
+      <a href="profil.html" class="btn">🏛️ Profil Budaya</a>
+      <a href="index.html" class="btn">🏠 Kembali ke Home</a>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 karya fengki - UMKM Kulineran Kupang-NTT</p>
+  </footer>
+
+  <div class="wa-float">
+    <a href="https://wa.me/6282315541698?text=Halo%20Budaya%20NTT%2C%20saya%20ingin%20bertanya%20tentang%20menu%20kuliner%20UMKM%20Kupang"
+       target="_blank" rel="noopener"
+       class="wa-float-btn"
+       title="Hubungi Kami di WhatsApp 0823-1554-1698">
+      <span class="wa-pulse"></span>
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      <span class="wa-label">
+        <span>Hubungi Kami</span>
+        <small>0823-1554-1698</small>
+      </span>
+    </a>
+  </div>
+
+  <script>
+    /* ========== LOADING SCREEN ========== */
+    window.addEventListener('load', () => {
+      const loadingScreen  = document.getElementById('loadingScreen');
+      const progressBar    = document.getElementById('progressBar');
+      const loadingPercent = document.getElementById('loadingPercent');
+
+      let progress = 0;
+
+      const interval = setInterval(() => {
+        progress += Math.random() * 20 + 15;
+
+        if (progress >= 100) {
+          progress = 100;
+          progressBar.style.width = '100%';
+          loadingPercent.textContent = '100%';
+          clearInterval(interval);
+
+          setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => loadingScreen.remove(), 1100);
+          }, 500);
+        } else {
+          progressBar.style.width = progress + '%';
+          loadingPercent.textContent = Math.floor(progress) + '%';
+        }
+      }, 100);
+    });
+
+    /* ========== FILTER KATEGORI ========== */
+    function filterKategori(kategori, btn) {
+      document.querySelectorAll('.filter button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.menu-item').forEach(item => {
+        if (kategori === 'all' || item.dataset.kategori === kategori) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    /* ========== PENCARIAN PRODUK ========== */
+    function cariProduk() {
+      const keyword = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('.menu-item').forEach(item => {
+        const nama = item.dataset.nama || '';
+        const isi = item.textContent.toLowerCase();
+        if (nama.includes(keyword) || isi.includes(keyword)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    /* ========== SMOOTH SCROLL ========== */
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          target.style.background = '#fff8e1';
+          setTimeout(() => { target.style.background = 'white'; }, 1200);
+        }
+      });
+    });
+
+    /* ============================================================
+       ✅ FUNGSI BUKA LAPORAN PDF — BISA DIBUKA DI HP & DESKTOP
+       ============================================================ */
+    function bukaLaporan() {
+      /* Nama file PDF — sesuaikan dengan nama file Anda */
+      const filePDF = 'LAPORAN WEBSITE KATALOG KULINERAN UMKM KUPANG.pdf';
+
+      /* Cara 1: window.open() — paling reliable di HP */
+      const win = window.open(filePDF, '_blank');
+
+      /* Jika browser memblokir popup (karena kebijakan HP tertentu),
+         maka redirect langsung di tab yang sama */
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        /* Popup diblokir → buka di tab yang sama */
+        window.location.href = filePDF;
+      }
+    }
+    /* ✅ SELESAI TAMBAHAN */
+
+    console.log('🍲 Katalog UMKM Kuliner Kupang siap dijelajahi!');
+    console.log('📱 WhatsApp: 0823-1554-1698');
+  </script>
+
+</body>
+</html>

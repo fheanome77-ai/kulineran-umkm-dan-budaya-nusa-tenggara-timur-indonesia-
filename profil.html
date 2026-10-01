@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profil UMKM Kulineran Kupang-NTT — Budaya NTT</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Arial;
+    background: #fdf6ec;
+    color: #2e3d2f;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ===== NAVBAR ===== */
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #b34700;
+    color: white;
+    padding: 1rem 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  }
+  .navbar .logo { font-size: 1.3rem; font-weight: bold; }
+  .navbar nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 0.4rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: background 0.3s;
+    font-size: 0.95rem;
+  }
+  .navbar nav a:hover { background: #7a2f00; }
+  .navbar nav a.active { background: #7a2f00; font-weight: bold; }
+
+  /* ===== BREADCRUMB ===== */
+  .breadcrumb {
+    padding: 1rem 2rem;
+    font-size: 0.9rem;
+    color: #666;
+    background: #fff4e6;
+  }
+  .breadcrumb a { color: #b34700; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 4rem 1rem;
+    background: linear-gradient(135deg, #ffcc80, #ffb74d);
+    color: #4e2600;
+    overflow: hidden;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1400&q=80');
+    background-size: cover;
+    background-position: center;
+    opacity: 1.40;
+    z-index: 1;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,204,128,0.80), rgba(255,183,77,0.70));
+    z-index: 2;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.7rem;
+    text-shadow: 0 2px 8px rgba(255,255,255,0.8), 0 1px 3px rgba(0,0,0,0.15);
+    color: #4e2600;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    text-shadow: 0 1px 4px rgba(255,255,255,0.7);
+    color: #5a2d00;
+    font-weight: 500;
+  }
+
+  /* ===== CONTENT ===== */
+  .content { padding: 1rem 2rem 3rem; max-width: 1100px; margin: auto; }
+
+  /* ===== SECTION ===== */
+  .section {
+    background: white;
+    border-radius: 14px;
+    padding: 1.8rem;
+    margin: 2rem 0;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    border-left: 6px solid #b34700;
+    scroll-margin-top: 100px;
+    animation: fadeIn 0.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section h2 {
+    color: #b34700;
+    margin-bottom: 0.8rem;
+    font-size: 1.4rem;
+  }
+
+  .section h3 {
+    color: #7a2f00;
+    margin: 1.2rem 0 0.5rem;
+    font-size: 1.1rem;
+  }
+
+  .section p { margin-bottom: 0.8rem; text-align: justify; }
+
+  .section ul { margin: 0.5rem 0 1rem 1.5rem; }
+  .section li { margin: 0.4rem 0; }
+
+  /* ===== INFO GRID ===== */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .info-box {
+    background: #fff8e1;
+    border-radius: 12px;
+    padding: 1.2rem;
+    text-align: center;
+    border-top: 4px solid #ffb74d;
+    transition: transform 0.3s;
+  }
+
+  .info-box:hover { transform: translateY(-4px); }
+
+  .info-box .icon { font-size: 2rem; margin-bottom: 0.4rem; }
+  .info-box h4 { color: #b34700; font-size: 1rem; margin-bottom: 0.3rem; }
+  .info-box p { font-size: 0.85rem; color: #666; text-align: center; }
+
+  /* ===== MENU DETAIL CARDS — FOTO DI KANAN ATAS ===== */
+  .menu-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .menu-detail-card {
+    background: #fff8e1;
+    border-radius: 14px;
+    padding: 1.5rem;
+    border-left: 5px solid #ffb74d;
+    border-top: 3px solid #ffb74d;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+
+    /* Layout flex: kiri = teks, kanan = foto */
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Container teks — diberi padding kanan agar tidak menabrak foto */
+  .menu-detail-card .teks-wrap {
+    padding-right: 140px; /* sama dengan lebar foto + jarak */
+  }
+
+  /* Foto di kanan atas — absolute */
+  .menu-detail-card .foto-menu {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 5px 16px rgba(0,0,0,0.2);
+    z-index: 2;
+    transition: transform 0.3s;
+  }
+
+  .menu-detail-card:hover .foto-menu {
+    transform: scale(1.05) rotate(1deg);
+    box-shadow: 0 8px 22px rgba(179, 71, 0, 0.4);
+  }
+
+  .menu-detail-card::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 80px; height: 80px;
+    background: #ffe0b2;
+    border-radius: 50%;
+    opacity: 0.5;
+    z-index: 0;
+  }
+
+  .menu-detail-card > * { position: relative; z-index: 1; }
+
+  .menu-detail-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(179, 71, 0, 0.15);
+    border-left-color: #b34700;
+    border-top-color: #b34700;
+  }
+
+  .menu-detail-card .menu-icon {
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+    line-height: 1;
+    display: inline-block;
+  }
+
+  .menu-detail-card h4 {
+    color: #b34700;
+    font-size: 1.15rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    /* HAPUS padding-right di sini karena sudah dipindah ke .teks-wrap */
+  }
+
+  .menu-detail-card .badge-kategori {
+    display: inline-block;
+    background: #b34700;
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .menu-detail-card p {
+    font-size: 0.88rem;
+    color: #4a4a4a;
+    text-align: justify;
+    margin-bottom: 0.7rem;
+    line-height: 1.7;
+  }
+
+  .menu-detail-card .asal {
+    display: inline-block;
+    background: #ffe0b2;
+    color: #7a2f00;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-top: 0.3rem;
+  }
+
+  .menu-detail-card .harga-tag {
+    display: inline-block;
+    background: #b34700;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-left: 0.4rem;
+  }
+
+  /* Badge (asal & harga) juga dalam teks-wrap agar tidak menabrak foto */
+  .menu-detail-card .teks-wrap .badges {
+    margin-top: 0.5rem;
+  }
+
+  /* ===== TABEL PRODUK ===== */
+  .produk-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .produk-table thead {
+    background: #b34700;
+    color: white;
+  }
+
+  .produk-table th,
+  .produk-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+  }
+
+  .produk-table tbody tr:nth-child(even) {
+    background: #fff8e1;
+  }
+
+  .produk-table tbody tr:hover {
+    background: #ffe0b2;
+  }
+
+  /* ===== MEDIA EMBED ===== */
+  .media-embed {
+    margin: 1rem 0;
+    background: #fff8e1;
+    padding: 1rem;
+    border-radius: 10px;
+    border-left: 4px solid #ffb74d;
+  }
+
+  .media-embed .label {
+    font-weight: bold;
+    color: #b34700;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .media-embed audio,
+  .media-embed video {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  /* ===== GALLERY ===== */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin: 1.5rem 0;
+  }
+
+  .gallery-item {
+    background: #fff8e1;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 22px rgba(179, 71, 0, 0.2);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .gallery-item .caption {
+    font-weight: 700;
+    color: #b34700;
+    padding: 0.7rem 0.8rem 0.3rem;
+    font-size: 1rem;
+  }
+
+  .gallery-item .desc {
+    font-size: 0.82rem;
+    color: #666;
+    padding: 0 0.8rem 0.9rem;
+    text-align: center;
+  }
+
+  /* ===== CARD UMKM ===== */
+  .umkm-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.2rem;
+    margin: 1.2rem 0;
+  }
+
+  .umkm-item {
+    background: #fff8e1;
+    border-radius: 12px;
+    padding: 1.2rem;
+    border-left: 5px solid #ffb74d;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .umkm-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  }
+
+  .umkm-item h4 {
+    color: #b34700;
+    margin-bottom: 0.4rem;
+    font-size: 1rem;
+  }
+
+  .umkm-item p {
+    font-size: 0.85rem;
+    color: #666;
+    text-align: left;
+    margin-bottom: 0.5rem;
+  }
+
+  .umkm-item .harga {
+    display: inline-block;
+    background: #b34700;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+
+  /* ===== CROSS LINKS ===== */
+  .cross-links {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px dashed #ffb74d;
+    text-align: center;
+  }
+  .cross-links h3 { color: #b34700; margin-bottom: 0.8rem; }
+
+  .btn {
+    display: inline-block;
+    background: #b34700;
+    color: white;
+    padding: 0.6rem 1.1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    margin: 0.3rem 0.3rem;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .btn:hover {
+    background: #7a2f00;
+    transform: translateY(-2px);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    background: #b34700;
+    color: white;
+    margin-top: 3rem;
+    font-size: 0.9rem;
+  }
+
+  /* ===== FLOATING WHATSAPP ===== */
+  .wa-float {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 200;
+  }
+  .wa-float-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: white;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+  }
+  .wa-float-btn:hover {
+    background: #1da851;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(37, 211, 102, 0.6);
+  }
+  .wa-float-btn .wa-pulse {
+    position: absolute;
+    top: -4px; left: -4px; right: -4px; bottom: -4px;
+    border-radius: 50px;
+    border: 2px solid #25D366;
+    animation: waPulse 2s infinite;
+    pointer-events: none;
+  }
+  @keyframes waPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.15); opacity: 0; }
+  }
+  .wa-float-btn svg { width: 26px; height: 26px; fill: white; flex-shrink: 0; }
+  .wa-float-btn .wa-label {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    text-align: left;
+  }
+  .wa-float-btn .wa-label small {
+    font-size: 0.7rem;
+    opacity: 0.85;
+    font-weight: 500;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 640px) {
+    .navbar { flex-direction: column; align-items: flex-start; }
+    .navbar nav a { display: inline-block; margin: 0.2rem 0.2rem 0.2rem 0; }
+    .hero h1 { font-size: 1.5rem; }
+    .hero p { font-size: 0.95rem; }
+    .hero { padding: 3rem 1rem; min-height: 240px; }
+    .content { padding: 1rem; }
+    .section { padding: 1.2rem; }
+    .produk-table { font-size: 0.8rem; }
+    .produk-table th, .produk-table td { padding: 0.5rem 0.6rem; }
+    .menu-detail-grid { grid-template-columns: 1fr; }
+
+    .menu-detail-card .foto-menu {
+      width: 90px;
+      height: 90px;
+      top: 10px;
+      right: 10px;
+    }
+
+    .menu-detail-card .teks-wrap {
+      padding-right: 105px;
+    }
+
+    .menu-detail-card h4 {
+      font-size: 1rem;
+    }
+
+    .wa-float { bottom: 80px; right: 15px; }
+    .wa-float-btn { padding: 10px 14px; font-size: 0.85rem; }
+    .wa-float-btn svg { width: 22px; height: 22px; }
+    .wa-float-btn .wa-label small { font-size: 0.65rem; }
+  }
+  @media (max-width: 400px) {
+    .wa-float-btn .wa-label { display: none; }
+    .wa-float-btn { padding: 12px; border-radius: 50%; }
+    .wa-float-btn .wa-pulse { border-radius: 50%; }
+
+    .menu-detail-card .foto-menu {
+      width: 80px;
+      height: 80px;
+    }
+
+    .menu-detail-card .teks-wrap {
+      padding-right: 95px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="logo">🌿  KULINER UMKM & BUDAYA NTT</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="profil.html" class="active">Profil UMKM</a>
+      <a href="galeri.html">Galeri Media</a>
+      <a href="peta.html">Peta</a>
+    </nav>
+  </header>
+
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb">
+    <a href="index.html">Home</a> › <span>PROFIL KULINER UMKM KUPANG-NTT</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>🍲 PRPFIL KULINERAN UMKM KUPANG-NTT</h1>
+      <p>Mengenal lebih dekat UMKM kuliner khas Nusa Tenggara Timur</p>
+    </div>
+  </section>
+
+  <!-- KONTEN -->
+  <main class="content">
+
+    <!-- ===== TENTANG KATALOG ===== -->
+    <section id="tentang" class="section">
+      <h2>📖 Tentang UMKM Kulineran Kupang-NTT</h2>
+      <p>UMKM Kuliner Kupang merupakan wadah informasi digital yang menyajikan berbagai produk kuliner khas Nusa Tenggara Timur, khususnya dari Kota Kupang dan sekitarnya. Katalog ini bertujuan untuk memperkenalkan cita rasa lokal kepada masyarakat luas sekaligus mendukung pertumbuhan UMKM daerah.</p>
+      <p>Setiap produk dalam katalog ini dikurasi berdasarkan keaslian resep, bahan lokal, dan nilai budaya yang terkandung di dalamnya. Dari makanan pokok tradisional hingga oleh-oleh khas, semuanya tersedia dalam satu platform.</p>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="icon">🏪</div>
+          <h4>UMKM Terdaftar</h4>
+          <p>25+ pelaku usaha kuliner lokal</p>
+        </div>
+        <div class="info-box">
+          <div class="icon">🍽️</div>
+          <h4>Produk Kuliner</h4>
+          <p>18 produk unggulan</p>
+        </div>
+        <div class="info-box">
+          <div class="icon">📍</div>
+          <h4>Lokasi</h4>
+          <p>Kota Kupang & sekitarnya</p>
+        </div>
+        <div class="info-box">
+          <div class="icon">🌿</div>
+          <h4>Bahan Lokal</h4>
+          <p>100% bahan alami NTT</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PENJELASAN DETAIL SETIAP MENU ===== -->
+    <section id="penjelasan-menu" class="section">
+      <h2>🍽️ Penjelasan Detail Setiap Menu & Asal Usulnya</h2>
+      <p>Setiap hidangan khas Nusa Tenggara Timur memiliki cerita, filosofi, dan asal-usul yang unik. Berikut penjelasan lengkap mengenai setiap menu yang ada di katalog UMKM Kulineran Kupang-NTT, lengkap dengan foto ilustrasi di kanan atas setiap kartu:</p>
+
+      <!-- ====== KATEGORI: MAKANAN TRADISIONAL ====== -->
+      <h3>🍲 Kuliner Tradisional</h3>
+
+      <div class="menu-detail-grid">
+
+        <!-- Jagung Bose -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="jagung.jpg" alt="Jagung">
+          <div class="teks-wrap">
+            <div class="menu-icon">🌽</div>
+            <h4>Jagung Bose <span class="badge-kategori">Makanan</span></h4>
+            <p>Jagung Bose adalah makanan pokok tradisional masyarakat NTT yang terbuat dari jagung pipil, kacang tanah, kacang hijau, dan labu kuning. Semua bahan dimasak bersama dalam satu kuali besar hingga menjadi bubur yang gurih dan mengenyangkan.</p>
+            <p><strong>Asal usul:</strong> Berasal dari tradisi agraris masyarakat Timor dan Flores yang menjadikan jagung sebagai tanaman pokok. Nama "bose" berasal dari bahasa daerah yang berarti "campuran" — mencerminkan filosofi kebersamaan.</p>
+            <div class="badges">
+              <span class="asal">📍 Timor & Flores</span>
+              <span class="harga-tag">Rp 15.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rumpu-Rampe -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="rumpu" alt="rumpu">
+          <div class="teks-wrap">
+            <div class="menu-icon">🌿</div>
+            <h4>Rumpu-Rampe <span class="badge-kategori">Makanan</span></h4>
+            <p>Rumpu-Rampe adalah tumis sayuran khas NTT yang terbuat dari campuran daun singkong, jantung pisang, buah pepaya muda, dan bunga pepaya. Dimasak dengan bumbu khas dan santan, menghasilkan cita rasa pahit-manis yang menyegarkan.</p>
+            <p><strong>Asal usul:</strong> Hidangan ini lahir dari kearifan lokal masyarakat NTT yang memanfaatkan seluruh bagian tanaman — tidak ada yang terbuang.</p>
+            <div class="badges">
+              <span class="asal">📍 Seluruh NTT</span>
+              <span class="harga-tag">Rp 20.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ikan Kuah Asam -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="ikan" alt="ikan">
+          <div class="teks-wrap">
+            <div class="menu-icon">🐟</div>
+            <h4>Ikan Kuah Asam <span class="badge-kategori">Makanan</span></h4>
+            <p>Ikan Kuah Asam adalah hidangan ikan segar yang dimasak dengan kuah bening asam. Menggunakan asam jawa, belimbing wuluh, atau jeruk nipis sebagai sumber rasa asam, ditambah kunyit dan kemangi.</p>
+            <p><strong>Asal usul:</strong> Erat kaitannya dengan kehidupan pesisir NTT. Para nelayan mengolah ikan hasil tangkapan dengan cara sederhana namun kaya rasa.</p>
+            <div class="badges">
+              <span class="asal">📍 Pesisir Kupang</span>
+              <span class="harga-tag">Rp 15.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Se'i Sapi -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="Se'i Sapi.jpg" alt="Se'i sapi">
+          <div class="teks-wrap">
+            <div class="menu-icon">🥩</div>
+            <h4>Se'i Sapi <span class="badge-kategori">Makanan</span></h4>
+            <p>Se'i Sapi adalah daging sapi asap khas Timor yang diasap dengan kayu kosambi selama berjam-jam. Proses pengasapan ini menghasilkan aroma smoky yang khas dan cita rasa yang tidak ditemukan di daerah lain.</p>
+            <p><strong>Asal usul:</strong> Berasal dari tradisi masyarakat Timor yang mengawetkan daging dengan cara diasap agar tahan lama. Kini Se'i menjadi ikon kuliner NTT paling terkenal.</p>
+            <div class="badges">
+              <span class="asal">📍 Timor</span>
+              <span class="harga-tag">Rp 50.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ubi Nuabosi -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="ubi" alt="ubi">
+          <div class="teks-wrap">
+            <div class="menu-icon">🍠</div>
+            <h4>Ubi Nuabosi <span class="badge-kategori">Makanan</span></h4>
+            <p>Ubi Nuabosi adalah ubi jalar khas Ende yang memiliki tekstur lembut dan rasa manis alami. Biasanya diolah dengan cara dikukus, digoreng, atau dijadikan kolak.</p>
+            <p><strong>Asal usul:</strong> Berasal dari daerah Nuabosi di Kabupaten Ende, Flores. Ubi ini telah dibudidayakan turun-temurun oleh petani lokal.</p>
+            <div class="badges">
+              <span class="asal">📍 Nuabosi, Ende</span>
+              <span class="harga-tag">Rp 10.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kue Rambut / Jawada -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="rmbt.jpg" alt="rmbt">
+          <div class="teks-wrap">
+            <div class="menu-icon">🍰</div>
+            <h4>Kue Rambut / Jawada <span class="badge-kategori">Makanan</span></h4>
+            <p>Jawada adalah kue tradisional NTT yang terbuat dari tepung beras dan gula. Berbeda dengan Kue Rambut, Jawada memiliki bentuk yang lebih padat dan tekstur yang lebih kenyal.</p>
+            <p><strong>Asal usul:</strong> Kue adat yang sering disajikan dalam acara syukuran dan pernikahan masyarakat NTT.</p>
+            <div class="badges">
+              <span class="asal">📍 Timor & Rote</span>
+              <span class="harga-tag">Rp 10.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nasi Kolo -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="kolo" alt="Nasi Kolo">
+          <div class="teks-wrap">
+            <div class="menu-icon">🍚</div>
+            <h4>Nasi Kolo <span class="badge-kategori">Makanan</span></h4>
+            <p>Nasi Kolo adalah nasi khas NTT yang dimasak di dalam bambu (kolo) di atas api terbuka. Proses memasak ini menghasilkan aroma smoky yang khas dan rasa gurih alami.</p>
+            <p><strong>Asal usul:</strong> Berasal dari tradisi masyarakat pedalaman Flores dan Timor yang memasak nasi dengan bambu karena keterbatasan alat masak.</p>
+            <div class="badges">
+              <span class="asal">📍 Flores & Timor</span>
+              <span class="harga-tag">Rp 25.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sambal Teri NTT -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="teri.jpg" alt="Sambal Teri NTT">
+          <div class="teks-wrap">
+            <div class="menu-icon">🌶️</div>
+            <h4>Sambal Teri NTT <span class="badge-kategori">Makanan</span></h4>
+            <p>Sambal Teri NTT adalah sambal khas NTT yang dibuat dari cabai segar, teri medan, dan bumbu tradisional. Pedasnya pas, gurih, dan cocok dijadikan pendamping nasi hangat atau oleh-oleh.</p>
+            <p><strong>Asal usul:</strong> Lahir dari kebiasaan masyarakat pesisir NTT yang mengombinasikan hasil laut (teri) dengan cabai lokal.</p>
+            <div class="badges">
+              <span class="asal">📍 Kupang</span>
+              <span class="harga-tag">Rp 15.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jagung Katemak -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="gung" alt="Jagung Katemak">
+          <div class="teks-wrap">
+            <div class="menu-icon">🌽</div>
+            <h4>Jagung Katemak <span class="badge-kategori">Makanan</span></h4>
+            <p>Jagung Katemak adalah hidangan jagung muda khas NTT yang dimasak dengan santan kelapa dan bumbu tradisional. Rasanya gurih, manis alami, dan creamy.</p>
+            <p><strong>Asal usul:</strong> Berasal dari tradisi masyarakat Timor yang mengolah jagung muda dengan santan. Kata "katemak" berarti "lembut".</p>
+            <div class="badges">
+              <span class="asal">📍 Timor</span>
+              <span class="harga-tag">Rp 15.000</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ====== KATEGORI: MINUMAN KHAS ====== -->
+      <h3>🥤 Minuman Khas</h3>
+
+      <div class="menu-detail-grid">
+
+        <!-- Sopi -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="https://images.unsplash.com/photo-1569529465841-dfecdab7503b?auto=format&fit=crop&w=400&q=80" alt="Sopi">
+          <div class="teks-wrap">
+            <div class="menu-icon">🍶</div>
+            <h4>Sopi <span class="badge-kategori">Minuman</span></h4>
+            <p>Sopi adalah minuman tradisional hasil fermentasi nira lontar (siwalan). Rasanya kuat dan khas, biasanya disajikan pada acara adat dan ritual masyarakat Timor.</p>
+            <p><strong>Asal usul:</strong> Berasal dari tradisi masyarakat Timor dan Rote yang telah menyadap nira lontar sejak ratusan tahun lalu. Sopi bukan sekadar minuman, tetapi bagian dari identitas budaya NTT.</p>
+            <div class="badges">
+              <span class="asal">📍 Timor & Rote</span>
+              <span class="harga-tag">Rp 35.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Es Lemon NTT -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=400&q=80" alt="Es Lemon NTT">
+          <div class="teks-wrap">
+            <div class="menu-icon">🍋</div>
+            <h4>Es Lemon NTT <span class="badge-kategori">Minuman</span></h4>
+            <p>Es Lemon NTT adalah minuman segar dari lemon lokal NTT, gula aren, dan es. Rasanya asam-manis yang menyegarkan, cocok dinikmati saat cuaca panas.</p>
+            <p><strong>Asal usul:</strong> Kreasi modern dari kekayaan lemon lokal NTT. Minuman ini menjadi favorit wisatawan yang berkunjung ke Kupang.</p>
+            <div class="badges">
+              <span class="asal">📍 Kupang</span>
+              <span class="harga-tag">Rp 10.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tuak -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=400&q=80" alt="Tuak">
+          <div class="teks-wrap">
+            <div class="menu-icon">🍷</div>
+            <h4>Tuak <span class="badge-kategori">Minuman</span></h4>
+            <p>Tuak adalah minuman tradisional NTT yang berasal dari nira pohon enau (aren) yang difermentasi secara alami. Rasanya manis sedikit asam, biasanya disajikan pada acara adat dan pertemuan keluarga.</p>
+            <p><strong>Asal usul:</strong> Berasal dari tradisi masyarakat Flores dan Timor yang menyadap nira enau. Tuak menjadi minuman penyambut tamu dalam upacara adat.</p>
+            <div class="badges">
+              <span class="asal">📍 Flores & Timor</span>
+              <span class="harga-tag">Rp 20.000</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ====== KATEGORI: OLEH-OLEH ====== -->
+      <h3>🎁 Oleh-oleh</h3>
+
+      <div class="menu-detail-grid">
+
+        <!-- Tenun Ikat -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="ikat.jpg" alt="Tenun Ikat">
+          <div class="teks-wrap">
+            <div class="menu-icon">🧵</div>
+            <h4>Tenun Ikat <span class="badge-kategori">Oleh-oleh</span></h4>
+            <p>Tenun Ikat adalah kain tenun tradisional NTT dengan motif khas yang dibuat melalui teknik ikat. Setiap motif memiliki makna dan filosofi tersendiri bagi masyarakat setempat.</p>
+            <p><strong>Asal usul:</strong> Berasal dari tradisi masyarakat Timor, Rote, Sumba, dan Flores yang telah menenun sejak berabad-abad. Setiap daerah memiliki motif khas yang berbeda.</p>
+            <div class="badges">
+              <span class="asal">📍 Seluruh NTT</span>
+              <span class="harga-tag">Rp 250.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kopi Timor -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=400&q=80" alt="Kopi Timor">
+          <div class="teks-wrap">
+            <div class="menu-icon">☕</div>
+            <h4>Kopi Timor <span class="badge-kategori">Oleh-oleh</span></h4>
+            <p>Kopi Timor adalah kopi arabika asal Timor dengan cita rasa khas, sedikit asam, dan aroma kuat. Diolah secara tradisional oleh petani lokal. Kopi ini terkenal hingga mancanegara.</p>
+            <p><strong>Asal usul:</strong> Berasal dari perkebunan kopi di dataran tinggi Timor yang telah ada sejak era kolonial. Kopi Timor menjadi komoditas ekspor unggulan NTT.</p>
+            <div class="badges">
+              <span class="asal">📍 Timor</span>
+              <span class="harga-tag">Rp 45.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keripik Pisang -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="ipik" alt="Keripik Pisang">
+          <div class="teks-wrap">
+            <div class="menu-icon">🍌</div>
+            <h4>Keripik Pisang <span class="badge-kategori">Oleh-oleh</span></h4>
+            <p>Keripik Pisang adalah camilan renyah dan gurih yang dibuat dari pisang pilihan dengan proses penggorengan tradisional. Tersedia dalam berbagai varian rasa: original, cokelat, dan keju.</p>
+            <p><strong>Asal usul:</strong> Olahan kreatif masyarakat NTT yang memanfaatkan melimpahnya pisang lokal. Kini menjadi oleh-oleh favorit wisatawan.</p>
+            <div class="badges">
+              <span class="asal">📍 Kupang</span>
+              <span class="harga-tag">Rp 5.000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jagung Goreng -->
+        <div class="menu-detail-card">
+          <img class="foto-menu" src="jag.jpg" alt="Jagung Goreng">
+          <div class="teks-wrap">
+            <div class="menu-icon">🍿</div>
+            <h4>Jagung Goreng <span class="badge-kategori">Oleh-oleh</span></h4>
+            <p>Jagung Goreng adalah camilan khas NTT yang renyah dan gurih. Dibuat dari jagung pilihan yang digoreng dengan bumbu tradisional. Cocok dinikmati sebagai camilan santai.</p>
+            <p><strong>Asal usul:</strong> Berasal dari tradisi masyarakat NTT yang menjadikan jagung sebagai bahan pangan utama. Jagung goreng menjadi variasi modern dari olahan jagung tradisional.</p>
+            <div class="badges">
+              <span class="asal">📍 Seluruh NTT</span>
+              <span class="harga-tag">Rp 7.000</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===== DAFTAR PRODUK UNGGULAN ===== -->
+    <section id="produk" class="section">
+      <h2>⭐ Produk Unggulan</h2>
+      <p>Berikut adalah daftar lengkap produk kuliner unggulan yang tersedia di katalog UMKM Kulineran Kupang-NTT:</p>
+
+      <table class="produk-table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Produk</th>
+            <th>Kategori</th>
+            <th>Harga</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>🌽 Jagung Bose</td><td>Kuliner Tradisional</td><td>Rp 15.000</td></tr>
+          <tr><td>2</td><td>🌿 Rumpu-Rampe</td><td>Kuliner Tradisional</td><td>Rp 20.000</td></tr>
+          <tr><td>3</td><td>🐟 Ikan Kuah Asam</td><td>Kuliner Tradisional</td><td>Rp 15.000</td></tr>
+          <tr><td>4</td><td>🥩 Se'i Sapi</td><td>Kuliner Tradisional</td><td>Rp 50.000</td></tr>
+          <tr><td>6</td><td>🍠 Ubi Nuabosi</td><td>Kuliner Tradisional</td><td>Rp 10.000</td></tr>
+          <tr><td>7</td><td>🍰 Kue Rambut / Jawada</td><td>Kuliner Tradisional</td><td>Rp 10.000</td></tr>
+          <tr><td>8</td><td>🍚 Nasi Kolo</td><td>Kuliner Tradisional</td><td>Rp 25.000</td></tr>
+          <tr><td>9</td><td>🌶️ Sambal Teri NTT</td><td>Kuliner Tradisional</td><td>Rp 15.000</td></tr>
+          <tr><td>10</td><td>🌽 Jagung Katemak</td><td>Kuliner Tradisional</td><td>Rp 15.000</td></tr>
+          <tr><td>12</td><td>🍶 Sopi</td><td>Minuman Khas</td><td>Rp 35.000</td></tr>
+          <tr><td>13</td><td>🍋 Es Lemon NTT</td><td>Minuman Khas</td><td>Rp 10.000</td></tr>
+          <tr><td>14</td><td>🍷 Tuak</td><td>Minuman Khas</td><td>Rp 20.000</td></tr>
+          <tr><td>15</td><td>🧵 Tenun Ikat</td><td>Oleh-oleh</td><td>Rp 250.000</td></tr>
+          <tr><td>16</td><td>☕ Kopi Timor</td><td>Oleh-oleh</td><td>Rp 45.000</td></tr>
+          <tr><td>17</td><td>🍌 Keripik Pisang</td><td>Oleh-oleh</td><td>Rp 5.000</td></tr>
+          <tr><td>18</td><td>🍿 Jagung Goreng</td><td>Oleh-oleh</td><td>Rp 7.000</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ===== PROFIL UMKM ===== -->
+    <section id="umkm" class="section">
+      <h2>🏪 Profil UMKM Mitra</h2>
+      <p>Beberapa UMKM kuliner yang menjadi mitra dalam katalog ini:</p>
+
+      <div class="umkm-list">
+        <div class="umkm-item">
+          <h4>🍲 Dapur Mama NTT</h4>
+          <p>Spesialis Jagung Bose & Se'i Sapi dengan resep turun-temurun dari Timor.</p>
+          <span class="harga">Sejak 2015</span>
+        </div>
+        <div class="umkm-item">
+          <h4>🍰 Kue Rambut Bu Ratna</h4>
+          <p>Produsen kue rambut tradisional dengan cita rasa autentik Kupang.</p>
+          <span class="harga">Sejak 2010</span>
+        </div>
+        <div class="umkm-item">
+          <h4>🧵 Tenun Ikat Timor</h4>
+          <p>Pengrajin tenun ikat dengan motif khas dan pewarna alami.</p>
+          <span class="harga">Sejak 2008</span>
+        </div>
+        <div class="umkm-item">
+          <h4>☕ Kopi Timor Arabika</h4>
+          <p>Petani kopi lokal penghasil arabika kualitas ekspor dari Timor.</p>
+          <span class="harga">Sejak 2012</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== VISI & MISI ===== -->
+    <section id="visi-misi" class="section">
+      <h2>🎯 Visi & Misi</h2>
+      <h3>Visi</h3>
+      <p>Menjadi katalog digital kuliner NTT terdepan yang mendukung pertumbuhan UMKM lokal dan melestarikan cita rasa tradisional.</p>
+
+      <h3>Misi</h3>
+      <ul>
+        <li>Menyediakan informasi lengkap dan akurat tentang produk kuliner NTT</li>
+        <li>Mendukung pemasaran digital UMKM kuliner Kupang</li>
+        <li>Melestarikan resep dan tradisi kuliner lokal</li>
+        <li>Menghubungkan produsen lokal dengan pasar yang lebih luas</li>
+      </ul>
+    </section>
+
+    <!-- CROSS LINKS -->
+    <section class="cross-links">
+      <h3>🔀 Jelajahi Juga:</h3>
+      <a href="index.html" class="btn">🍲 Katalog UMKM</a>
+      <a href="galeri.html" class="btn">📸 Galeri Foto</a>
+      <a href="peta.html" class="btn">🗺️ Peta Interaktif</a>
+      <a href="index.html" class="btn">🏠 Kembali ke Home</a>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 karya fengki - UMKM Kulineran Kupang-NTT</p>
+  </footer>
+
+  <!-- ================= FLOATING WHATSAPP ================= -->
+  <div class="wa-float">
+    <a href="https://wa.me/6282315541698?text=Hallo!%20NTT%20bolehkah%2C%20saya%20mengetahui%20tentang%20UMKM%20Kulineran%20Kupang%20-NTT%20?"
+       target="_blank" rel="noopener"
+       class="wa-float-btn"
+       title="Hubungi Kami di WhatsApp 0823-1554-1698">
+      <span class="wa-pulse"></span>
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      <span class="wa-label">
+        <span>Hubungi Kami</span>
+        <small>0823-1554-1698</small>
+      </span>
+    </a>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          target.style.boxShadow = '0 0 0 4px #ffb74d';
+          setTimeout(() => { target.style.boxShadow = '0 4px 14px rgba(0,0,0,0.08)'; }, 1200);
+        }
+      });
+    });
+
+    function openLightbox(el, caption) {
+      const imgSrc = el.querySelector('img').src;
+      const overlay = document.createElement('div');
+      overlay.style.cssText = `
+        position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+        display: flex; align-items: center; justify-content: center;
+        z-index: 9999; cursor: pointer; padding: 1rem;
+        flex-direction: column; gap: 1rem;
+      `;
+      overlay.innerHTML = `
+        <img src="${imgSrc}" style="max-width: 90%; max-height: 80vh; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+        <p style="color: white; font-size: 1rem; text-align: center; max-width: 600px;">${caption}</p>
+      `;
+      overlay.onclick = () => overlay.remove();
+      document.body.appendChild(overlay);
+    }
+
+    console.log('🍲 Profil Katalog Kuliner UMKM siap!');
+    console.log('📱 WhatsApp: 0823-1554-1698');
+  </script>
+
+</body>
+</html>

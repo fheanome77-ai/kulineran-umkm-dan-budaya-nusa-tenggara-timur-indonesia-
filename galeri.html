@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galeri Media — Budaya NTT</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Arial;
+    background: #fdf6ec;
+    color: #2e3d2f;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ===== NAVBAR ===== */
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #b34700;
+    color: white;
+    padding: 1rem 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  }
+  .navbar .logo { font-size: 1.3rem; font-weight: bold; }
+  .navbar nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 0.4rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: background 0.3s;
+    font-size: 0.95rem;
+  }
+  .navbar nav a:hover { background: #7a2f00; }
+  .navbar nav a.active { background: #7a2f00; font-weight: bold; }
+
+  /* ===== BREADCRUMB ===== */
+  .breadcrumb {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    color: #666;
+    background: #fff4e6;
+  }
+  .breadcrumb a { color: #b34700; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 4rem 1rem;
+    background: linear-gradient(135deg, #ffcc80, #ffb74d);
+    color: #4e2600;
+    overflow: hidden;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1400&q=80');
+    background-size: cover;
+    background-position: center;
+    opacity: 1.40;
+    z-index: 1;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,204,128,0.85), rgba(255,183,77,0.75));
+    z-index: 2;
+  }
+
+  .hero-content { position: relative; z-index: 3; max-width: 800px; }
+
+  .hero h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.7rem;
+    text-shadow: 0 2px 8px rgba(255,255,255,0.8), 0 1px 3px rgba(0,0,0,0.15);
+    color: #4e2600;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    text-shadow: 0 1px 4px rgba(255,255,255,0.7);
+    color: #5a2d00;
+    font-weight: 500;
+  }
+
+  /* ===== CONTENT ===== */
+  .content { padding: 1rem 2rem 3rem; max-width: 1200px; margin: auto; }
+
+  /* ===== SECTION TITLE ===== */
+  .section-title {
+    text-align: center;
+    color: #b34700;
+    margin: 2.5rem 0 1rem;
+    font-size: 1.4rem;
+    scroll-margin-top: 100px;
+  }
+
+  /* ===== PENJELASAN GALERI ===== */
+  .galeri-penjelasan {
+    background: white;
+    border-left: 6px solid #b34700;
+    border-radius: 14px;
+    padding: 1.8rem;
+    margin: 1.5rem 0 2rem;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  }
+
+  .galeri-penjelasan h3 {
+    color: #b34700;
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .galeri-penjelasan p {
+    font-size: 0.95rem;
+    color: #4a4a4a;
+    text-align: justify;
+    margin-bottom: 0.8rem;
+    line-height: 1.8;
+  }
+
+  .galeri-penjelasan ul {
+    margin: 0.8rem 0 0.5rem 1.5rem;
+    font-size: 0.92rem;
+    color: #4a4a4a;
+  }
+
+  .galeri-penjelasan ul li { margin-bottom: 0.5rem; line-height: 1.7; }
+  .galeri-penjelasan ul li strong { color: #b34700; }
+
+  .galeri-penjelasan .highlight-box {
+    background: #fff8e1;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin-top: 1rem;
+    border-left: 4px solid #ffb74d;
+    font-size: 0.9rem;
+    color: #5a3a10;
+    font-style: italic;
+  }
+
+  /* ===== GALERI FOTO ===== */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    cursor: pointer;
+    background: #eee;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gallery-item .img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+
+  .gallery-item:hover img { transform: scale(1.08); }
+
+  .gallery-item .caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    padding: 1.5rem 0.8rem 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .gallery-item:hover .caption { opacity: 1; }
+
+  .gallery-item .info-foto {
+    background: white;
+    padding: 0.9rem 1rem;
+    flex-grow: 1;
+  }
+
+  .gallery-item .info-foto h4 {
+    color: #b34700;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .gallery-item .info-foto p {
+    font-size: 0.78rem;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  /* ===== FOTO PER BUDAYA — 3 GAMBAR HORIZONTAL ===== */
+  .budaya-section { margin: 2rem 0; }
+
+  .budaya-block {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    margin-bottom: 2.5rem;
+    border-left: 6px solid #b34700;
+  }
+
+  .budaya-block .budaya-header {
+    background: linear-gradient(135deg, #b34700, #7a2f00);
+    color: white;
+    padding: 1rem 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  /* Grid 3 kolom horizontal untuk kain, rumah, makanan */
+  .budaya-foto-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    background: #eee;
+  }
+
+  .budaya-foto-item {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #ddd;
+    border-right: 2px solid white;
+  }
+
+  .budaya-foto-item:last-child { border-right: none; }
+
+  .budaya-foto-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    display: block;
+  }
+
+  .budaya-foto-item:hover img { transform: scale(1.08); }
+
+  .budaya-foto-item .label-foto {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(179, 71, 0, 0.9);
+    color: white;
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 2;
+  }
+
+  .budaya-foto-item .overlay-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    color: white;
+    padding: 1.5rem 1rem 0.9rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+    z-index: 2;
+  }
+
+  .budaya-block .budaya-info {
+    padding: 1.5rem;
+  }
+
+  .budaya-block .budaya-info p {
+    font-size: 0.92rem;
+    color: #4a4a4a;
+    text-align: justify;
+    margin-bottom: 0.7rem;
+    line-height: 1.8;
+  }
+
+  .budaya-block .budaya-info p strong { color: #b34700; }
+  .budaya-block .budaya-info p em { color: #7a2f00; font-style: normal; font-weight: 600; }
+
+  /* ===== AUDIO & VIDEO ===== */
+  .media-block {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+    border-left: 6px solid #ffb74d;
+  }
+
+  .media-block h3 { color: #b34700; margin-bottom: 0.7rem; font-size: 1.1rem; }
+
+  .media-block .media-desc {
+    font-size: 0.88rem;
+    color: #555;
+    text-align: justify;
+    margin-bottom: 1rem;
+    padding: 0.7rem 1rem;
+    background: #fff8e1;
+    border-radius: 8px;
+    border-left: 3px solid #ffb74d;
+    line-height: 1.7;
+  }
+
+  .media-block audio,
+  .media-block video {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+  }
+
+  /* ===== LIGHTBOX ===== */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    padding: 1rem;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .lightbox.active { display: flex; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .lightbox img {
+    max-width: 90%;
+    max-height: 85vh;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 25px; right: 30px;
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .lightbox-close:hover { color: #ffb74d; }
+
+  .lightbox-caption {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background: rgba(0,0,0,0.6);
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+    max-width: 90%;
+  }
+
+  /* ===== CROSS LINKS ===== */
+  .cross-links {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px dashed #ffb74d;
+    text-align: center;
+  }
+  .cross-links h3 { color: #b34700; margin-bottom: 0.8rem; }
+
+  .btn {
+    display: inline-block;
+    background: #b34700;
+    color: white;
+    padding: 0.6rem 1.1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    margin: 0.3rem 0.3rem;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .btn:hover { background: #7a2f00; transform: translateY(-2px); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    background: #b34700;
+    color: white;
+    margin-top: 3rem;
+    font-size: 0.9rem;
+  }
+
+  /* ===== FLOATING WHATSAPP ===== */
+  .wa-float {
+    position: fixed;
+    bottom: 25px; right: 25px;
+    z-index: 200;
+  }
+  .wa-float-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: white;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+  }
+  .wa-float-btn:hover {
+    background: #1da851;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(37, 211, 102, 0.6);
+  }
+  .wa-float-btn .wa-pulse {
+    position: absolute;
+    top: -4px; left: -4px; right: -4px; bottom: -4px;
+    border-radius: 50px;
+    border: 2px solid #25D366;
+    animation: waPulse 2s infinite;
+    pointer-events: none;
+  }
+  @keyframes waPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.15); opacity: 0; }
+  }
+  .wa-float-btn svg { width: 26px; height: 26px; fill: white; flex-shrink: 0; }
+  .wa-float-btn .wa-label {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    text-align: left;
+  }
+  .wa-float-btn .wa-label small {
+    font-size: 0.7rem;
+    opacity: 0.85;
+    font-weight: 500;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .budaya-foto-grid {
+      grid-template-columns: 1fr;   /* jadi vertikal di HP/tablet */
+    }
+    .budaya-foto-item {
+      height: 240px;
+      border-right: none;
+      border-bottom: 2px solid white;
+    }
+    .budaya-foto-item:last-child { border-bottom: none; }
+  }
+
+  @media (max-width: 640px) {
+    .navbar { flex-direction: column; align-items: flex-start; }
+    .navbar nav a { display: inline-block; margin: 0.2rem 0.2rem 0.2rem 0; }
+    .hero h1 { font-size: 1.5rem; }
+    .hero p { font-size: 0.95rem; }
+    .hero { padding: 3rem 1rem; min-height: 240px; }
+    .content { padding: 1rem; }
+    .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    .galeri-penjelasan { padding: 1.2rem; }
+    .galeri-penjelasan h3 { font-size: 1.05rem; }
+
+    .budaya-block .budaya-header { font-size: 1.05rem; padding: 0.9rem 1.2rem; }
+    .budaya-block .budaya-info { padding: 1.2rem; }
+    .budaya-foto-item { height: 220px; }
+
+    .wa-float { bottom: 80px; right: 15px; }
+    .wa-float-btn { padding: 10px 14px; font-size: 0.85rem; }
+    .wa-float-btn svg { width: 22px; height: 22px; }
+    .wa-float-btn .wa-label small { font-size: 0.65rem; }
+  }
+  @media (max-width: 400px) {
+    .wa-float-btn .wa-label { display: none; }
+    .wa-float-btn { padding: 12px; border-radius: 50%; }
+    .wa-float-btn .wa-pulse { border-radius: 50%; }
+
+    .budaya-foto-item { height: 190px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="logo">🌿  KULINER UMKM & BUDAYA NTT</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="profil.html">Profil UMKM</a>
+      <a href="galeri.html" class="active">Galeri Media</a>
+      <a href="peta.html">Peta</a>
+    </nav>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb">
+    <a href="index.html">Home</a> › <span>Galeri Media</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>📸 GALERI MEDIA KULINERAN & BUDAYA NTT</h1>
+      <p>Koleksi foto, audio, dan video dokumentasi Budaya & UMKM NTT</p>
+    </div>
+  </section>
+
+  <!-- KONTEN -->
+  <main class="content">
+
+    <!-- ===== PENJELASAN GALERI ===== -->
+    <section class="galeri-penjelasan">
+      <h3>🌟 MEMPROMOSIKAN MAKANAN KHAS NTT SERTA BUDAYA YANG ADA DI NUSA TENGGARA TIMUR</h3>
+
+      <p>Galeri media ini merupakan bagian dari upaya <strong>mempromosikan makanan khas Nusa Tenggara Timur</strong> sekaligus <strong>mendukung Budaya Di Nusa Tenggara Timur</strong> agar semakin dikenal oleh masyarakat luas : baik di tingkat nasional maupun internasional. Setiap foto, audio, dan video yang ditampilkan di sini memiliki cerita dan nilai budaya yang mendalam. Melalui galeri ini, kami ingin mengangkat kekayaan kuliner NTT yang selama ini belum banyak dikenal, padahal menyimpan cita rasa autentik yang luar biasa : mulai dari Jagung Bose yang gurih dan mengenyangkan, Se'i Sapi yang diasap dengan kayu kosambi selama berjam-jam, Kue Rambut yang renyah dan manis, hingga Kopi Timor yang telah mendunia. Semua hidangan ini bukan sekadar makanan, melainkan cerminan identitas, tradisi, dan kearifan lokal masyarakat Nusa Tenggara Timur yang diwariskan dari generasi ke generasi. Kami percaya bahwa kuliner NTT layak mendapatkan tempat istimewa di hati masyarakat Indonesia dan dunia.</p>
+
+     <p>Melalui galeri ini, kami ingin memperkenalkan bahwa Nusa Tenggara Timur memiliki beberapa budaya yang kaya dan beragam,
+       yaitu <strong>Timor, Rote, Sabu, Flores, Sumba, dan Alor</strong>. Setiap budaya memiliki keunikan tersendiri
+        : mulai dari makanan khas, bahasa daerah, hingga adat istiadat yang diwariskan turun-temurun.
+         Budaya <strong>Timor</strong> dikenal dengan hidangan Se'i Sapi yang diasap dengan kayu kosambi, 
+         bahasa Dawan (Uab Meto), Tetun, dan Helong, serta tradisi Natoni berupa pantun lisan penyambutan tamu dan rumah adat Lopo berbentuk bulat.
+          Budaya <strong>Rote</strong> memiliki Olak-Olak dan Kue Rambut
+           sebagai kuliner khas, bahasa Rote (Dela) dengan dialek Dengka, Lole, dan Ringgou, serta tradisi menenun Tenun Ikat bermotif geometris dan
+            upacara adat Ti'i Langga. Budaya <strong>Sabu</strong> menghadirkan Kue Lontar, Jaha Uwi, dan Tuak sebagai kuliner khas, bahasa Sabu (Haharu) yang erat kaitannya dengan bahasa Rote, serta ritual adat Hole untuk menyambut tamu dan memohon hujan, dengan rumah adat berbentuk limas. Budaya <strong>Flores</strong> sangat kaya dengan Ubi Nuabosi, Jagung Katemak, Kopi Bajawa, dan Kue Jawada, beragam bahasa seperti Lio, Ngada, Manggarai, Sikka, dan Ende, serta tradisi Tarian Caci, upacara Reba, dan rumah adat Mbaru Niang Wae Rebo yang ikonik. Budaya <strong>Sumba</strong> terkenal dengan Nasi Kolo, Keripik Pisang, dan Kaparak, bahasa Sumba (Kambera, Wewewa, Mamboru), serta tradisi Pasola (perang berkuda) dan rumah adat Uma Bokulu dengan kubur batu megalitik. Sedangkan budaya <strong>Alor</strong> menyajikan Jagung Goreng, Kue Rambut, dan Sopi, dengan lebih dari 12 bahasa daerah seperti Abui, Adang, Kolana, Kui, dan Sawila, serta tradisi Tarian Lego-Lego dan rumah adat Kolana berbentuk rumah panggung. Keenam budaya ini membuktikan bahwa Nusa Tenggara Timur adalah permata budaya yang menyimpan kekayaan luar biasa, di mana setiap suku memiliki makanan khas, bahasa, dan adat istiadat yang unik namun tetap terikat dalam satu identitas : Nusa Tenggara Timur.</p>
+      
+     <P>Berikut penjelasan masing-masing budaya:</p>
+
+      <ul>
+        <li><strong>🍲 Kuliner Khas NTT</strong> : Menampilkan aneka makanan tradisional seperti Jagung Bose, Se'i Sapi, Kue Rambut, dan lainnya yang sarat akan cita rasa autentik.</li>
+        <li><strong>🏪 UMKM Kulineran Kupang</strong> : Mendukung pelaku usaha mikro, kecil, dan menengah di Kupang agar produk mereka semakin dikenal dan dipasarkan lebih luas.</li>
+        <li><strong>🎭 Budaya NTT</strong> : Memperkenalkan kekayaan budaya Nusa Tenggara Timur, mulai dari tenun ikat, rumah adat, suku adat, hingga tradisi lisan seperti Natoni.</li>
+        <li><strong>📖 Filosofi & Tradisi</strong> : Setiap hidangan memiliki makna tersendiri yang diwariskan turun-temurun dari generasi ke generasi.</li>
+      </ul>
+
+      <div class="highlight-box">
+        💡 "Melalui galeri ini, kami berharap semakin banyak orang mengenal, mencintai, dan melestarikan kuliner serta budaya Nusa Tenggara Timur."
+      </div>
+    </section>
+
+    <h2 id="budaya" class="section-title">🏝️ FOTO BUDAYA NTT : KAIN ADAT, RUMAH ADAT & MAKANAN KHAS NTT</h2>
+
+    <div class="budaya-section">
+
+  <!-- BUDAYA TIMOR -->
+      <div class="budaya-block">
+        <div class="budaya-header">🏝️ Budaya Timor</div>
+        <div class="budaya-foto-grid">
+          <!-- Kain Adat -->
+          <div class="budaya-foto-item" onclick="openLightboxImg('kainTTS.jpg', 'Kain Adat Timor : Tenun Ikat motif khas')">
+            <span class="label-foto">Kain Adat</span>
+            <img src="kainTTS.jpg" alt="gambar">
+            <div class="overlay-caption">Tenun Ikat Timor : Motif khas dengan makna filosofis</div>
+          </div>
+          <!-- Rumah Adat -->
+          <div class="budaya-foto-item" onclick="openLightboxImg('adatTTS1.jpg', 'Rumah Adat Timor : Lopo bulat')">
+            <span class="label-foto">Rumah Adat</span>
+            <img src="adatTTS1.jpg" alt="gambar">
+            <div class="overlay-caption">Rumah Adat Lopo : Rumah bulat beratap alang-alang</div>
+          </div>
+          <!-- Makanan Khas -->
+          <div class="budaya-foto-item" onclick="openLightboxImg('mknkhasTTS.jpg', 'Makanan Khas Timor : Jagung Bose')">
+            <span class="label-foto">Makanan Khas</span>
+            <img src="mknkhasTTS.jpg" alt="gambar">
+            <div class="overlay-caption">Jagung Bose : Makanan pokok khas Timor</div>
+          </div>
+        </div>
+        <div class="budaya-info">
+          <p><strong>Budaya Timor</strong> : Masyarakat Timor mendiami Pulau Timor bagian barat, dengan Kota Kupang sebagai pusatnya. <em>Makanan khas</em> mereka antara lain Se'i Sapi (daging asap khas Timor), Jagung Bose (makanan pokok dari jagung dan kacang-kacangan), Rumpu-Rampe (tumis sayuran dari daun singkong dan bunga pepaya), serta Ikan Kuah Asam (ikan segar dengan kuah asam). <em>Bahasa</em> yang digunakan adalah Bahasa Dawan (Uab Meto), Bahasa Tetun, dan Bahasa Helong. <em>Adat istiadat</em> mereka sangat kental dengan tradisi Natoni (pantun lisan penyambutan tamu), rumah adat Lopo (rumah bulat beratap alang-alang), serta upacara adat seperti penyambutan tamu dan syukuran panen yang penuh makna.</p>
+        </div>
+      </div>
+
+      <!-- BUDAYA ROTE -->
+      <div class="budaya-block">
+        <div class="budaya-header">🏝️ Budaya Rote</div>
+        <div class="budaya-foto-grid">
+          <div class="budaya-foto-item" onclick="openLightboxImg('kainadatrote', 'Kain Adat Rote : Tenun Ikat geometris')">
+            <span class="label-foto">Kain Adat</span>
+            <img src="kainadatrote" alt="gambar">
+            <div class="overlay-caption">Tenun Ikat Rote : Motif geometris khas</div>
+          </div>
+          <div class="budaya-foto-item" onclick="openLightboxImg('rumahadatrotedenka.jpg', 'Rumah Adat Rote : rumah panggung')">
+            <span class="label-foto">Rumah Adat</span>
+            <img src="rumahadatrotedenka.jpg" alt="Rumah Adat Rote">
+            <div class="overlay-caption">Rumah Adat Rote Denka : Rumah tradisional</div>
+          </div>
+          <div class="budaya-foto-item" onclick="openLightboxImg('mknkhasrote.jpg', 'Makanan Khas Rote : Kue Rambut & Olak-Olak')">
+            <span class="label-foto">Makanan Khas</span>
+            <img src="mknkhasrote.jpg" alt="Makanan Khas Rote">
+            <div class="overlay-caption">Kue Rambut & Olak-Olak : Camilan khas Rote</div>
+          </div>
+        </div>
+        <div class="budaya-info">
+          <p><strong>Budaya Rote</strong> : Masyarakat Rote mendiami Pulau Rote di ujung selatan NTT. <em>Makanan khas</em> mereka adalah Olak-Olak (kue dari tepung beras dan gula aren), Kue Rambut (kue tradisional renyah), serta Sopi (minuman fermentasi nira lontar). <em>Bahasa</em> yang digunakan adalah Bahasa Rote (Bahasa Dela) dengan beberapa dialek seperti Dengka, Lole, dan Ringgou. <em>Adat istiadat</em> mereka terkenal dengan tradisi menenun Tenun Ikat Rote dengan motif geometris khas, upacara adat Ti'i Langga (topi adat Rote), serta tradisi lisan yang kuat dan pertunjukan tari-tarian seperti Tari Bonet dan Tari Bini.</p>
+        </div>
+      </div>
+
+<!-- BUDAYA SABU -->
+      <div class="budaya-block">
+        <div class="budaya-header">🏝️ Budaya Sabu</div>
+        <div class="budaya-foto-grid">
+          <div class="budaya-foto-item" onclick="openLightboxImg('kainadatsabu.jpg', 'Kain Adat Sabu : Tenun Ikat Sabu')">
+            <span class="label-foto">Kain Adat</span>
+            <img src="kainadatsabu.jpg" alt="Kain Adat Sabu">
+            <div class="overlay-caption">Tenun Ikat Sabu : Motif khas Sabu Raijua</div>
+          </div>
+          <div class="budaya-foto-item" onclick="openLightboxImg('rmhadatsabu.jpg', 'Rumah Adat Sabu : rumah limas')">
+            <span class="label-foto">Rumah Adat</span>
+            <img src="rmhadatsabu.jpg" alt="Rumah Adat Sabu">
+            <div class="overlay-caption">Rumah Adat Limas : Sabu Raijua</div>
+          </div>
+          <div class="budaya-foto-item" onclick="openLightboxImg('mknkhassabu.jpg', 'Makanan Khas Sabu : Kue Lontar & Jaha Uwi')">
+            <span class="label-foto">Makanan Khas</span>
+            <img src="mknkhassabu.jpg" alt="Makanan Khas Sabu">
+            <div class="overlay-caption">Kue Lontar & Jaha Uwi : Kuliner khas Sabu</div>
+          </div>
+        </div>
+        <div class="budaya-info">
+          <p><strong>Budaya Sabu</strong> : Masyarakat Sabu mendiami Pulau Sabu Raijua di barat daya NTT. <em>Makanan khas</em> mereka antara lain Kue Lontar (kue dari tepung beras dengan gula), Jaha Uwi (ubi rebus dengan kelapa), serta Tuak (minuman fermentasi nira enau). <em>Bahasa</em> yang digunakan adalah Bahasa Sabu (Haharu) yang masih erat kaitannya dengan Bahasa Rote. <em>Adat istiadat</em> mereka sangat menghormati leluhur, dengan tradisi seperti Hole (upacara adat penyambutan tamu), penggunaan rumah adat berbentuk limas, serta ritual adat untuk memohon hujan dan hasil panen yang melimpah.</p>
+        </div>
+      </div>
+
+ <!-- BUDAYA FLORES -->
+      <div class="budaya-block">
+        <div class="budaya-header">🏝️ Budaya Flores</div>
+        <div class="budaya-foto-grid">
+          <div class="budaya-foto-item" onclick="openLightboxImg('kainadatflores.jpg', 'Kain Adat Flores : Tenun Ikat Flores')">
+            <span class="label-foto">Kain Adat</span>
+            <img src="kainadatflores.jpg" alt="Kain Adat Flores">
+            <div class="overlay-caption">Tenun Ikat Flores : Motif kaya makna</div>
+          </div>
+          <div class="budaya-foto-item" onclick="openLightboxImg('rmhadatflores.jpg', 'Rumah Adat Flores : Mbaru Niang Wae Rebo')">
+            <span class="label-foto">Rumah Adat</span>
+            <img src="rmhadatflores.jpg" alt="Rumah Adat Flores">
+            <div class="overlay-caption">Mbaru Niang : Rumah kerucut Wae Rebo</div>
+          </div>
+          <div class="budaya-foto-item" onclick="openLightboxImg('mknkhasflores.jpg', 'Makanan Khas Flores : Kopi Bajawa & Ubi Nuabosi')">
+            <span class="label-foto">Makanan Khas</span>
+            <img src="mknkhasflores.jpg" alt="Makanan Khas Flores">
+            <div class="overlay-caption">nasi kolo : Kuliner khas Flores</div>
+          </div>
+        </div>
+        <div class="budaya-info">
+          <p><strong>Budaya Flores</strong> : Flores adalah pulau panjang yang dihuni berbagai suku seperti Ende, Lio, Ngada, Manggarai, Sikka, dan Maumere. <em>Makanan khas</em> mereka sangat beragam, antara lain Ubi Nuabosi (ubi khas Ende), Jagung Katemak (jagung muda dengan santan), Kopi Flores Bajawa (kopi arabika khas dataran tinggi), serta Kue Jawada (kue tradisional dari tepung beras). <em>Bahasa</em> yang digunakan sangat beragam, seperti Bahasa Lio, Bahasa Ngada, Bahasa Manggarai, Bahasa Sikka, dan Bahasa Ende. <em>Adat istiadat</em> mereka sangat kental, dengan tradisi seperti Tarian Caci (tarian perang menggunakan cambuk), upacara adat Reba (syukuran tahun baru Ngada), rumah adat Mbaru Niang (rumah kerucut Wae Rebo), serta tradisi menenun Tenun Ikat Flores dengan motif yang kaya makna.</p>
+        </div>
+      </div>
+
+      <!-- BUDAYA SUMBA -->
+      <div class="budaya-block">
+        <div class="budaya-header">🏝️ Budaya Sumba</div>
+        <div class="budaya-foto-grid">
+          <div class="budaya-foto-item" onclick="openLightboxImg('kainadatsumba.jpg', 'Kain Adat Sumba : Tenun Ikat Sumba')">
+            <span class="label-foto">Kain Adat</span>
+            <img src="kainadatsumba.jpg" alt="Kain Adat Sumba">
+            <div class="overlay-caption">Tenun Ikat Sumba : Motif kuda & ayam</div>
+          </div>
+          <div class="budaya-foto-item" onclick="openLightboxImg('rmhadatsumba.jpg', 'Rumah Adat Sumba : Uma Bokulu')">
+            <span class="label-foto">Rumah Adat</span>
+            <img src="rmhadatsumba.jpg" alt="Rumah Adat Sumba">
+            <div class="overlay-caption">Uma Bokulu : Rumah menara Sumba</div>
+          </div>
+          <div class="budaya-foto-item" onclick="openLightboxImg('mknkhassumba', 'Makanan Khas Sumba : Manggulu & Kaparak')">
+            <span class="label-foto">Makanan Khas</span>
+            <img src="mknkhassumba" alt="Makanan Khas Sumba">
+            <div class="overlay-caption">Manggulu & Kaparak : Kuliner khas Sumba</div>
+          </div>
+        </div>
+        <div class="budaya-info">
+          <p><strong>Budaya Sumba</strong> : Masyarakat Sumba mendiami Pulau Sumba di selatan NTT, dengan Sumba Barat dan Sumba Timur sebagai wilayah utamanya. <em>Makanan khas</em> mereka antara lain Nasi Kolo (nasi dalam bambu), Keripik Pisang, serta Kaparak (kue dari kacang hijau). <em>Bahasa</em> yang digunakan adalah Bahasa Sumba (Kambera, Wewewa, Mamboru, dan lainnya). <em>Adat istiadat</em> mereka terkenal sangat kuat, dengan tradisi Pasola (perang berkuda tradisional), rumah adat Uma Bokulu (rumah menara Sumba), kubur batu megalitik, serta tradisi menenun Tenun Ikat Sumba dengan motif kuda, ayam, dan manusia yang melambangkan keberanian dan kehormatan.</p>
+        </div>
+      </div>
+
+<!-- BUDAYA ALOR -->
+      <div class="budaya-block">
+        <div class="budaya-header">🏝️ Budaya Alor</div>
+        <div class="budaya-foto-grid">
+          <div class="budaya-foto-item" onclick="openLightboxImg('kainadatalor.jpg', 'Kain Adat Alor : Tenun Ikat Alor')">
+            <span class="label-foto">Kain Adat</span>
+            <img src="kainadatalor.jpg" alt="Kain Adat Alor">
+            <div class="overlay-caption">Tenun Ikat Alor : Motif unik dengan warna alami</div>
+          </div>
+          <div class="budaya-foto-item" onclick="openLightboxImg('rmhadatalor.jpg', 'Rumah Adat Alor : Rumah Kolana')">
+            <span class="label-foto">Rumah Adat</span>
+            <img src="rmhadatalor.jpg" alt="Rumah Adat Alor">
+            <div class="overlay-caption">Rumah Kolana : Rumah panggung Alor</div>
+          </div>
+          <div class="budaya-foto-item" onclick="openLightboxImg('mknkhasalor.jpg', 'Makanan Khas Alor : Kuliner & Kodomotif khas Alor')">
+            <span class="label-foto">Makanan Khas</span>
+            <img src="mknkhasalor.jpg" alt="Makanan Khas Alor">
+            <div class="overlay-caption">Kuliner & Kodomotif khas Alor</div>
+          </div>
+        </div>
+        <div class="budaya-info">
+          <p><strong>Budaya Alor</strong> : Masyarakat Alor mendiami Kepulauan Alor di ujung timur NTT. <em>Makanan khas</em> mereka antara lain Jagung Goreng (camilan gurih khas Alor), Kue Rambut (kue tradisional), serta Sopi (minuman fermentasi nira lontar). <em>Bahasa</em> yang digunakan sangat beragam, terdapat lebih dari 12 bahasa daerah di Alor, seperti Bahasa Abui, Bahasa Adang, Bahasa Kolana, Bahasa Kui, dan Bahasa Sawila. <em>Adat istiadat</em> mereka kaya akan tradisi seperti Tarian Lego-Lego (tarian persahabatan), upacara adat Kalabahi (syukuran hasil panen), rumah adat Kolana (rumah panggung Alor), serta tradisi menenun Tenun Ikat Alor dengan motif yang unik dan warna alami.</p>
+        </div>
+      </div>
+
+      <p style="font-size:0.95rem; color:#4a4a4a; text-align:justify; line-height:1.8; background:#fff8e1; padding:1rem 1.2rem; border-radius:10px; border-left:4px solid #ffb74d;">
+        Dari keenam budaya tersebut, kita dapat melihat bahwa Nusa Tenggara Timur adalah <strong>permata budaya</strong> yang menyimpan kekayaan luar biasa. Setiap suku memiliki makanan khas, bahasa, dan adat istiadat yang unik : namun semuanya terikat dalam satu identitas: <strong>Nusa Tenggara Timur</strong>. Melalui galeri ini, kami ingin memperkenalkan keindahan dan keberagaman tersebut kepada masyarakat luas, sekaligus mengajak semua pihak untuk ikut melestarikan warisan budaya yang tak ternilai ini.
+      </p>
+
+    </div>
+
+    <!-- ===== FOTO ===== -->
+    <h2 id="foto" class="section-title">📷 FOTO KULINER UMKM  & BUDAYA UMKM NUSA TENGGARA TIMUR</h2>
+
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openLightbox(this, 'Jagung Bose : makanan pokok NTT')">
+        <div class="img-wrap">
+          <img src="jagung.jpg" alt="Jagung Bose">
+          <div class="caption">Jagung Bose</div>
+        </div>
+        <div class="info-foto">
+          <h4>Jagung Bose</h4>
+          <p>Makanan pokok khas NTT dari jagung, kacang tanah, kacang hijau, dan labu. Melambangkan kebersamaan dan rasa syukur.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox(this, 'Se\'i Sapi : daging asap khas Timor')">
+        <div class="img-wrap">
+          <img src="Se'i Sapi.jpg" alt="Se'i Sapi">
+          <div class="caption">Se'i Sapi</div>
+        </div>
+        <div class="info-foto">
+          <h4>Se'i Sapi</h4>
+          <p>Daging sapi asap khas Timor yang diasap dengan kayu kosambi. Ikon kuliner NTT yang paling terkenal.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox(this, 'Kue Rambut : kue tradisional renyah')">
+        <div class="img-wrap">
+          <img src="rmbt.jpg" alt="Kue Rambut">
+          <div class="caption">Kue Rambut</div>
+        </div>
+        <div class="info-foto">
+          <h4>Kue Rambut</h4>
+          <p>Kue tradisional berbentuk halus seperti rambut, terbuat dari tepung beras. Renyah dan manis.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox(this, 'Tenun Ikat : kain khas NTT')">
+        <div class="img-wrap">
+          <img src="ikat.jpg" alt="Tenun Ikat">
+          <div class="caption">Tenun Ikat</div>
+        </div>
+        <div class="info-foto">
+          <h4>Tenun Ikat</h4>
+          <p>Kain tenun motif khas NTT dengan filosofi mendalam. Setiap motif memiliki makna tersendiri.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox(this, 'Kopi Timor : arabika khas')">
+        <div class="img-wrap">
+          <img src="kopi.jpg" alt="kopi">
+          <div class="caption">Kopi Timor</div>
+        </div>
+        <div class="info-foto">
+          <h4>Kopi Timor</h4>
+          <p>Kopi arabika asal Timor dengan cita rasa khas, sedikit asam, dan aroma kuat. Komoditas ekspor unggulan NTT.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox(this, 'Sopi : minuman tradisional')">
+        <div class="img-wrap">
+          <img src="sopi1.jpg" alt="Sopi Timor">
+          <div class="caption">Sopi Timor</div>
+        </div>
+        <div class="info-foto">
+          <h4>Sopi Timor</h4>
+          <p>Minuman tradisional hasil fermentasi nira lontar. Bagian dari identitas budaya masyarakat Timor.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox(this, 'Rumah Adat Bena : arsitektur megalitik')">
+        <div class="img-wrap">
+          <img src="lopo" alt="lopo">
+          <div class="caption">Rumah Adat TTS</div>
+        </div>
+        <div class="info-foto">
+          <h4>Rumah Adat TTS</h4>
+          <p>Arsitektur megalitik khas Timor Tengah Selatan. Simbol kekayaan budaya & tradisi leluhur NTT.</p>
+        </div>
+      </div>
+
+      <div class="gallery-item" onclick="openLightbox(this, 'Suku Boti : masyarakat adat TTS')">
+        <div class="img-wrap">
+          <img src="tts.jpg" alt="Suku Boti">
+          <div class="caption">Suku Boti</div>
+        </div>
+        <div class="info-foto">
+          <h4>Suku Boti</h4>
+          <p>Masyarakat adat TTS yang masih menjaga tradisi leluhur, termasuk kuliner dan ritual adatnya.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ===== VIDEO ===== -->
+    <h2 id="video" class="section-title">🎬 VIDEO DOKUMENTER KULINERAN & BUDAYA NTT</h2>
+
+    <!-- ✅ VIDEO BARU -->
+    <div class="media-block">
+      <h3>🎥 Video Kulineran & Budaya NTT</h3>
+      <p class="media-desc">
+        Dokumentasi singkat tentang kekayaan <strong>kuliner NTT</strong> (Jagung Bose, Se'i Sapi, Kue Rambut, Kopi Timor DLL)</p>
+      <video controls muted playsinline preload="metadata">
+        <source src="mkn.mp4" type="video/mp4">
+        Browser Anda tidak mendukung video.
+      </video>
+    </div>
+
+    <!-- ===== AUDIO ===== -->
+    <h2 id="audio" class="section-title">🎧 AUDIO MAKANAN KHAS NTT DAN BUDAYA NUSA TENGGARA TIMUR</h2>
+
+    <!-- ✅ AUDIO BARU -->
+    <div class="media-block">
+      <h3>🎙️ Audio Penjelasan Kulineran & Budaya NTT</h3>
+      <p class="media-desc">
+        Penjelasan singkat tentang kekayaan <strong>kuliner NTT</strong> (Jagung Bose, Se'i Sapi, Kue Rambut, Kopi Timor) dan <strong>budaya NTT</strong> (Timor, Rote, Sabu, Flores, Sumba, Alor) yang perlu dikenal dan dilestarikan.
+      </p>
+      <audio controls>
+        <source src="suara1" type="audio/mpeg">
+        Browser Anda tidak mendukung audio.
+      </audio>
+    </div>
+
+
+
+    <!-- CROSS LINKS -->
+    <section class="cross-links">
+      <h3>🔀 Jelajahi Juga:</h3>
+      <a href="index.html" class="btn">🍲 Katalog UMKM</a>
+      <a href="profil.html" class="btn">🏛️ Profil Budaya</a>
+      <a href="peta.html" class="btn">🗺️ Peta</a>
+      <a href="index.html" class="btn">🏠 Kembali ke Home</a>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>©2026 karya fengki - UMKM Kulineran Kupang-NTT</p>
+  </footer>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightboxImg" src="" alt="">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+
+  <!-- FLOATING WHATSAPP -->
+  <div class="wa-float">
+    <a href="https://wa.me/6282315541698?text=Halo%20Budaya%20NTT%2C%20saya%20ingin%20bertanya%20tentang%20galeri%20media%20budaya%20NTT"
+       target="_blank" rel="noopener"
+       class="wa-float-btn"
+       title="Hubungi Kami di WhatsApp 0823-1554-1698">
+      <span class="wa-pulse"></span>
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      <span class="wa-label">
+        <span>Hubungi Kami</span>
+        <small>0823-1554-1698</small>
+      </span>
+    </a>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    /* ===== LIGHTBOX (dari kartu galeri) ===== */
+    function openLightbox(el, caption) {
+      const lb = document.getElementById('lightbox');
+      const img = el.querySelector('img');
+      const lbImg = document.getElementById('lightboxImg');
+      const lbCap = document.getElementById('lightboxCaption');
+
+      lbImg.src = img.src;
+      lbCap.textContent = caption || img.alt;
+      lb.classList.add('active');
+    }
+
+    /* ===== LIGHTBOX (dari foto per budaya) ===== */
+    function openLightboxImg(src, caption) {
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightboxImg');
+      const lbCap = document.getElementById('lightboxCaption');
+
+      lbImg.src = src;
+      lbCap.textContent = caption || '';
+      lb.classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    console.log('📸 Galeri Media Budaya NTT siap!');
+    console.log('📱 WhatsApp: 0823-1554-1698');
+  </script>
+
+</body>
+</html>
